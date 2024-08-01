@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Foto e Download</title>
+    <link rel="icon" href="logo.ico" type="image/x-icon"> <!-- Link para o favicon -->
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+        }
+
+        #canvas-container {
+            position: relative;
+            max-width: 100%;
+            overflow: hidden;
+            display: flex;
+            justify-content: center;
+        }
+
+        canvas {
+            border: 1px solid #ddd;
+            max-width: 100%;
+            height: auto;
+        }
+
+        input[type="file"] {
+            margin-bottom: 20px;
+        }
+
+        @media (max-width: 600px) {
+            canvas {
+                max-width: 90vw; /* Ajusta o tamanho máximo para 90% da largura da tela */
+                height: auto; /* Mantém a proporção original */
+            }
+
+            body {
+                padding: 10px; /* Reduz o padding para telas menores */
+            }
+
+            h1 {
+                font-size: 1.5rem; /* Ajusta o tamanho da fonte para telas menores */
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Insira sua foto</h1>
+    <input type="file" id="upload" accept="image/*">
+    <div id="canvas-container">
+        <canvas id="canvas"></canvas>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const canvas = document.getElementById('canvas');
+            const ctx = canvas.getContext('2d');
+            const upload = document.getElementById('upload');
+            const templateImage = new Image();
+            
+            // Substitua 'template.png' pelo caminho da sua imagem PNG com fundo transparente
+            templateImage.src = 'template.png';
+            
+            templateImage.onload = function() {
+                canvas.width = templateImage.width;
+                canvas.height = templateImage.height;
+                // Desenhar a imagem PNG no canvas
+                ctx.drawImage(templateImage, 0, 0);
+            };
+
+            upload.addEventListener('change', function(event) {
+                const file = event.target.files[0];
+                if (file) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        const userImage = new Image();
+                        userImage.src = e.target.result;
+                        userImage.onload = function() {
+                            // Desenhar a foto do usuário no canvas, como fundo
+                            ctx.clearRect(0, 0, canvas.width, canvas.height);
+                            ctx.drawImage(userImage, 0, 0, canvas.width, canvas.height);
+                            // Desenhar a imagem PNG com fundo transparente sobre a foto do usuário
+                            ctx.drawImage(templateImage, 0, 0);
+                            
+                            // Gerar a URL da imagem resultante
+                            const imageUrl = canvas.toDataURL('image/png');
+                            
+                            // Criar um link de download e clicar automaticamente
+                            const link = document.createElement('a');
+                            link.href = imageUrl;
+                            link.download = 'resultado.png'; // Nome do arquivo para download
+                            link.style.display = 'none'; // Não exibir o link
+                            document.body.appendChild(link); // Adicionar o link ao DOM
+                            link.click(); // Clicar no link para iniciar o download
+                            document.body.removeChild(link); // Remover o link do DOM
+                        };
+                    };
+                    reader.readAsDataURL(file);
+                }
+            });
+        });
+    </script>
+</body>
+</html>
