@@ -20,11 +20,7 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
-        }
-
-        h1 {
-            margin-bottom: 20px;
-            text-align: center;
+            background: linear-gradient(to right, #ff69b4, #ff1493); /* Gradiente rosa */
         }
 
         .controls {
@@ -112,8 +108,37 @@
             height: auto;
         }
 
+        /* Personalizando o botão de upload de arquivos */
         input[type="file"] {
             margin-bottom: 20px;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            color: white;
+            background-color: black; /* Cor do botão */
+            border-radius: 5px; /* Bordas arredondadas */
+            cursor: pointer; /* Cursor como ponteiro */
+            display: inline-block;
+        }
+
+        input[type="file"]::-webkit-file-upload-button {
+            background: black; /* Cor do botão para Webkit */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        input[type="file"]::-moz-file-upload-button {
+            background: black; /* Cor do botão para Firefox */
+            color: white;
+            border: none;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            cursor: pointer;
         }
 
         @media (max-width: 600px) {
@@ -126,10 +151,6 @@
                 padding: 10px;
             }
 
-            h1 {
-                font-size: 1.5rem;
-            }
-
             .controls {
                 flex-direction: column;
             }
@@ -137,7 +158,6 @@
     </style>
 </head>
 <body>
-    <h1>Insira e ajuste sua foto</h1>
     <input type="file" id="upload" accept="image/*">
     <div class="controls">
         <div class="input-group-row">
