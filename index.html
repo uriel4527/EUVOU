@@ -20,11 +20,68 @@
             margin: 0;
             padding: 20px;
             box-sizing: border-box;
+            background: linear-gradient(135deg, #ff69b4, #ff1493); /* Degradê rosa */
         }
 
-        h1 {
-            margin-bottom: 20px;
+        input[type="file"] {
+            margin-bottom: 20px; /* Espaço entre o botão de escolher arquivo e o botão de navegação */
+            display: block; /* Para garantir que ocupa toda a largura disponível */
+            padding: 8px 16px; /* Reduz o padding */
+            font-size: 14px; /* Diminui o tamanho da fonte */
+            color: #fff; /* Cor do texto */
+            background-color: #000; /* Cor de fundo preta */
+            border: 2px solid #000; /* Cor da borda preta */
+            border-radius: 5px; /* Bordas arredondadas */
+            cursor: pointer; /* Cursor de mão para indicar clicável */
+        }
+
+        input[type="file"]::file-selector-button {
+            border: none; /* Remove borda padrão do botão de arquivo */
+            background-color: #000; /* Cor de fundo preta */
+            color: white; /* Cor do texto */
+            padding: 8px 16px; /* Espaço interno do botão */
+            border-radius: 5px; /* Bordas arredondadas */
+            font-size: 14px; /* Tamanho da fonte */
+        }
+
+        input[type="file"]::file-selector-button:hover {
+            background-color: #333; /* Cor de fundo preta mais escura ao passar o mouse */
+        }
+
+        #button-container {
+            margin-bottom: 20px; /* Espaço entre o botão e a foto */
+        }
+
+        .button {
+            display: inline-block;
+            padding: 6px 12px; /* Reduz o padding */
+            font-size: 14px; /* Diminui o tamanho da fonte */
+            color: #fff;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
             text-align: center;
+        }
+
+        .button:hover {
+            background-color: #0056b3;
+        }
+
+        .download-button {
+            display: inline-block;
+            padding: 6px 12px; /* Espaço interno do botão */
+            font-size: 14px; /* Tamanho da fonte */
+            color: #fff; /* Cor do texto */
+            background-color: #000; /* Cor de fundo preta */
+            border: none; /* Remove a borda padrão */
+            border-radius: 5px; /* Bordas arredondadas */
+            text-decoration: none; /* Remove o sublinhado */
+            text-align: center; /* Centraliza o texto */
+        }
+
+        .download-button:hover {
+            background-color: #333; /* Cor de fundo preta mais escura ao passar o mouse */
         }
 
         #canvas-container {
@@ -41,10 +98,6 @@
             height: auto;
         }
 
-        input[type="file"] {
-            margin-bottom: 20px;
-        }
-
         @media (max-width: 600px) {
             canvas {
                 max-width: 90vw; /* Ajusta o tamanho máximo para 90% da largura da tela */
@@ -54,16 +107,14 @@
             body {
                 padding: 10px; /* Reduz o padding para telas menores */
             }
-
-            h1 {
-                font-size: 1.5rem; /* Ajusta o tamanho da fonte para telas menores */
-            }
         }
     </style>
 </head>
 <body>
-    <h1>Insira sua foto</h1>
     <input type="file" id="upload" accept="image/*">
+    <div id="button-container">
+        <a href="avancado.html" class="button">Edição Avançada</a>
+    </div>
     <div id="canvas-container">
         <canvas id="canvas"></canvas>
     </div>
@@ -106,6 +157,7 @@
                             link.href = imageUrl;
                             link.download = 'resultado.png'; // Nome do arquivo para download
                             link.style.display = 'none'; // Não exibir o link
+                            link.className = 'download-button'; // Aplicar a classe de estilo
                             document.body.appendChild(link); // Adicionar o link ao DOM
                             link.click(); // Clicar no link para iniciar o download
                             document.body.removeChild(link); // Remover o link do DOM
